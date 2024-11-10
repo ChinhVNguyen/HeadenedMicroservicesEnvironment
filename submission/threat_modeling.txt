@@ -1,0 +1,29 @@
+Docker Threat Modeling
+Given Docker's system components and the STRIDE framework, identify five potential threats that may arise.
+Five potential threats are:
+1. Spoofing: An attacker poses as an admin to access aspects of Docker images.
+2. Tampering: Due to misconfiguration of Docker, an attacker could hijack the Docker client to pull down an image containing malware.
+3. Information Disclosure: Misconfiguration of the daemon file may lead to incorrect inter-container communication, resulting in unintended disclosure of information.
+4. Denial of Service: An attacker floods the application with requests, causing it to crash.
+5. Elevation of Privilege: Container image permissions may be elevated using the --privileged flag, and image libraries may contain security flaws.
+
+Kubernetes Threat Modeling
+Given Kubernetes' system components and the STRIDE framework, identify five potential threats that may arise.
+Five potential threats are:
+1. Spoofing : The connection between the API server and kubelet can be spoofed. This can be mitigated by using kubelet uses strong encryption that does not have cryptographic flaws, strong TLS ciphers should be used.
+2. Tampering: An attacker gains access to the Kubernetes cluster and installs malware onto one of the pods.
+3. Repudiation: Kubernetes natively does not allow for certificate revocation, which may lead to repudiation if a certificate cannot be revoked when necessary.
+4. Information Disclosure: Sensitive information may be exposed via the etcd key-value store. This can be mitigated by encrypting etcd content at rest and using TLS to access etcd only from the kube-apiserver. All other traffic should be rejected.
+5. Denial of Service: An attacker floods the pods with requests, overwhelming the cluster.
+
+Docker-bench Run Results and Analysis
+From the failed findings, select and document three findings from the Docker-bench results that you want to harden based on the five attack surface areas you identified in Step 1. At least one of the three hardened findings should differ from those mentioned in the exercise (i.e., findings 5.10, 5.14, and 5.22).
+
+2.14 - Ensure Containers Are Restricted from Acquiring New Privileges
+By default, a container should restrict the ability to acquire new privileges
+
+2.15 - Ensure Live Restore Is Enabled
+Setting live-restore to true ensures that the container is not interrupted when it is unavailable
+
+2.16 - Ensure Userland Proxy Is Disabled
+The userland proxy needs to be set to false to allow forwarding using hairpin NAT.
